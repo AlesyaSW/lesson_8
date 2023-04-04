@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+@dataclass()
 class Product:
     """
     Класс продукта
@@ -8,12 +9,6 @@ class Product:
     price: float
     description: str
     quantity: int
-
-    def __init__(self, name, price, description, quantity):
-        self.name = name
-        self.price = price
-        self.description = description
-        self.quantity = quantity
 
     def check_quantity(self, quantity) -> bool:
         """
@@ -28,17 +23,12 @@ class Product:
             return self.quantity
         else:
             raise ValueError("Товара нет")
-        """
-        TODO реализуйте метод покупки
-            Проверьте количество продукта используя метод check_quantity
-            Если продуктов не хватает, то выбросите исключение ValueError
-        """
+
     def __hash__(self):
         return hash(self.name + self.description)
 
 
 class Cart:
-
     product: int
 
     # Словарь продуктов и их количество в корзине
@@ -76,8 +66,8 @@ class Cart:
         return total_price
 
     def buy(self):
-       for product, quantity in self.products.items():
-           if product.check_quantity(quantity):
-               product.buy(quantity)
-           else:
-               raise ValueError("Не хватает продуктов")
+        for product, quantity in self.products.items():
+            if product.check_quantity(quantity):
+                product.buy(quantity)
+            else:
+                raise ValueError("Не хватает продуктов")

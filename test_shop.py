@@ -10,10 +10,11 @@ from models import Product, Cart
 def product():
     return Product("book", 100, "This is a book", 1000)
 
+
 @pytest.fixture()
 def cart():
-    cart = Cart
-    return cart
+    return Cart()
+
 
 class TestProducts:
     """
@@ -35,32 +36,31 @@ class TestProducts:
             product.buy(1001)
 
 
-
 class TestCart:
 
     def test_add_new_product(self, product, cart):
         cart.add_product(product, 5)
-        assert cart.product[product] == 5
+        assert cart.products[product] == 5
 
     def test_add_exist_product(self, product, cart):
-        cart.add_product(product, 5)
+        cart.add_product(product, 10)
         assert cart.products[product] == 10
         assert len(cart.products.items()) == 1
 
     def test_clear(self, product, cart):
         cart.add_product(product, 5)
         cart.clear()
-        assert cart.products =={}
+        assert cart.products == {}
 
     def test_get_total_price(self, product, cart):
-        cart.add_product(product,5)
+        cart.add_product(product, 5)
         total_price = cart.get_total_price()
-        assert total_price ==500
+        assert total_price == 500
 
     def test_remove_products_without_quantity(self, product, cart):
         cart.add_product(product, 5)
         cart.remove_product(product)
-        assert len(cart.pructs.items()) == 0
+        assert len(cart.products.items()) == 0
 
     def test_remove_higher_count_products(self, product, cart):
         cart.add_product(product, 5)
